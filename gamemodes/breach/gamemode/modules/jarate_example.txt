@@ -1,0 +1,53 @@
+-- PRZYKŁAD JAK DODAĆ JARATE DO ROLI W BREACH
+-- Ten plik to tylko dokumentacja, nie jest ładowany przez grę
+
+-- 1. DODANIE DO KONKRETNEJ ROLI
+-- W pliku gamemodes/breach/gamemode/modules/sh_classes.lua
+-- Znajdź definicję roli i dodaj "weapon_jarate" do tablicy weapons
+
+-- Przykład dla roli Cook:
+cook = {
+    name = "Cook",
+    color = Color(115, 69, 69, 255),
+    weapons = {"weapon_crowbar", "weapon_doner_knife", "weapon_jarate"}, -- Dodane weapon_jarate
+    ammo = {["jarate"] = 2}, -- Opcjonalnie: dodatkowa amunicja
+    -- reszta konfiguracji...
+}
+
+-- 2. DODANIE DO SPAWNU DLA WSZYSTKICH
+-- W pliku gamemodes/breach/gamemode/modules/sv_player.lua
+-- W funkcji GM:PlayerSpawn(ply) możesz dodać:
+ply:Give("weapon_jarate")
+ply:GiveAmmo(1, "jarate", true)
+
+-- 3. DODANIE DO SKLEPU/WYPOSAŻENIA
+-- Jeśli masz system sklepu, dodaj item:
+SHOP_ITEMS["jarate"] = {
+    name = "Jarate",
+    price = 100,
+    weapon = "weapon_jarate",
+    ammo = "jarate",
+    ammocount = 1,
+}
+
+-- 4. KONFIGURACJA
+-- Możesz zmienić ustawienia przez konsolę:
+-- blossomJarateDuration 10     - czas trwania efektu (sekundy)
+-- blossomJarateStrenght 0.35   - mnożnik obrażeń (0.35 = +35%)
+-- blossomJarateRange 150       - zasięg wybuchu
+-- blossomJarateThrow 650       - siła rzutu
+-- blossomJarateCount 1         - ilość słoików
+
+-- 5. EFEKTY SPECJALNE
+-- Jarate automatycznie:
+-- - Nakłada żółty overlay na ekran gracza
+-- - Zmienia kolor postaci na żółty
+-- - Dodaje cząsteczki moczu spadające z postaci
+-- - Zwiększa otrzymywane obrażenia o 35%
+-- - Można zmyć wodą (gracz musi wejść do wody)
+-- - Efekt znika po śmierci lub po upływie czasu
+
+-- 6. TROUBLESHOOTING
+-- Jeśli brakuje tekstur/dźwięków:
+-- - Upewnij się że masz zainstalowany oryginalny addon Jarate
+-- - Lub skopiuj pliki z jarate/materials i jarate/sound do odpowiednich folderów 
